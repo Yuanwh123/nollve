@@ -13,4 +13,10 @@ public class GoodsPagesController {
 	 */
 	@RequestMapping("/goods")
 	public String adminMallIndexPage() {return  "goods/goodsDetail";}
+	/**
+	 * …Ã∆∑π∫¬Ú“≥
+	 * @ywh
+	 */
+	@RequestMapping("/med")
+	public String adminMallBuyPage() {return  "goods/goodsBuy";}
 }

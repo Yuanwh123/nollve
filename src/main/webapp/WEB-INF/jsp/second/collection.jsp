@@ -48,6 +48,7 @@
 						<li class="mine_c"><a href="bought">已买到的宝贝</a><span></span></li>
 						<li><a href="#" id="owned_actived">我的收藏</a></li>
 						<li><a href="comment">评价管理</a></li>
+						<li><a href="accountSet">账户设置</a></li>
 					</ul>
 				</div>
 				<div class="mine_main fl">

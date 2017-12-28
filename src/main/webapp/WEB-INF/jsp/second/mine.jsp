@@ -23,9 +23,10 @@
 									<li><a href="../first/index">首页</a></li>
 									<li><a href="../second/mine">我的</a></li>
 									<li><a href="../second/cart">购物车</a></li>
-									<li><a href="我的2.html">我的订单</a></li>
+									<li><a href="../second/order">我的订单</a></li>
 									<li><a href="../second/collection">收藏</a></li>
 									<li><a href="../second/comment">评价</a></li>
+									
 								</ol>
 							</li>
 							<li class="clearfix"><a href="../first/jour">新闻中心</a></li>
@@ -48,6 +49,7 @@
 						<li class="mine_c"><a href="bought">已买到的宝贝</a><span></span></li>
 						<li><a href="collection">我的收藏</a></li>
 						<li><a href="comment">评价管理</a></li>
+						<li><a href="accountSet">账户设置</a></li>
 					</ul>
 				</div>
 				<div class="mine_main fl">
@@ -71,7 +73,7 @@
 					</div>
 					<div class="mine_logistics" id="mine_logistics">
 						<div class="logistics_head">
-							<img src="img/mine_car.png" alt="car" />
+							<img src="../img/mine_car.png" alt="car" />
 							<span>我的物流</span>
 						</div>
 						<div class="logistics_item clearfix">

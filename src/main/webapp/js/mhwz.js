@@ -1,10 +1,38 @@
 window.onload = function(){
 	$(function(){
+
+//判断登陆
+			var COOKIE_NAME = 'sys_em_username';
+			var cookieName = $.cookie(COOKIE_NAME);
+			if(cookieName!=null){
+			 	$(".land1").css("display","none");
+			 	$(".land2").css("display","block");
+			 	$(".land2 .userN").text(cookieName);
+			 }
+			$(".quit").click(function(){
+				cookieName=null;
+				$(".land1").css("display","block");
+			 	$(".land2").css("display","none");
+			})
+			
 //主页
-		$(window).resize(function(){
+		if($(".h3_c").length==1 || $(".eb_pic").length==1 || $(".course").length==1){
+			$(window).resize(function(){
 			window.location.reload();
+			})
+		}
+		$(".contactUs").click(function(){
+			$(".phoneUs").css("display","block");
+			$(".phoneUs").css({
+				top:50+"%",left:50+"%",marginLeft:-150,marginTop:-65
+			})
+			$(".bg_div").css("display","block")
 		})
-		var winW =parseInt(window.innerWidth) ;
+		$(".bg_div").click(function(){
+			$(".phoneUs").css("display","none");
+			$(".bg_div").css("display","none")
+		})
+		var winW =parseInt(document.body.offsetWidth) ;
 		$(".cont").css("width",winW);
 		$(".inn img").css("width",winW);
 		$(".inn a").css("width",winW);
@@ -190,13 +218,19 @@ window.onload = function(){
 			picture5(index5);
 		})
 	//新闻中心页面
+	var innerHeight=$('.innerBox').height()/2;
+	$(".newsLeftArrow").css({top:innerHeight,marginTop:-13+'px'});
+	$(".newsRightArrow").css({top:innerHeight,marginTop:-13+'px'});
+	$(window).resize(function(){
+		var innerHeight=$('.innerBox').height()/2;
+		$(".newsLeftArrow").css({top:innerHeight,marginTop:-13+'px'});
+		$(".newsRightArrow").css({top:innerHeight,marginTop:-13+'px'});
+	})
 	$(".newsLeftArrow").click(function(){
 		if(parseInt($(".innerBox").css("left")) >=0){
 			$(".innerBox").css("left","0");
 		}else{
 			$(".innerBox").animate({left:parseInt($(".innerBox").css("left"))+parseInt($(".picture_box").width())},300);
-			$(".newsLeftArrow").css("left",15);
-			$(".newsRightArrow").css("left",parseInt($(".picture_box").width()));
 		}
 	})
 	$(".newsRightArrow").click(function(){
@@ -204,17 +238,24 @@ window.onload = function(){
 			$(".innerBox").css("left","-parseInt($('.picture_box').width())");
 		}else{
 			$(".innerBox").animate({left:parseInt($(".innerBox").css("left"))-parseInt($(".picture_box").width())},300);
-			$(".newsRightArrow").css("left",2*parseInt($(".picture_box").width()));
-			$(".newsLeftArrow").css("left",parseInt($(".picture_box").width())+15);
 		}
 	})
+	
+	
+	var innerHeight2=$('.innerSucess').height()/2;
+	$(".newsLeftArrow2").css({top:innerHeight2,marginTop:-13+'px'});
+	$(".newsRightArrow2").css({top:innerHeight2,marginTop:-13+'px'});
+	$(window).resize(function(){
+		var innerHeight2=$('.innerSucess').height()/2;
+		$(".newsLeftArrow2").css({top:innerHeight2,marginTop:-13+'px'});
+		$(".newsRightArrow2").css({top:innerHeight2,marginTop:-13+'px'});
+	})
+	
 	$(".newsLeftArrow2").click(function(){
 		if(parseInt($(".innerSucess").css("left")) >=0){
 			$(".innerSucess").css("left","0");
 		}else{
 			$(".innerSucess").animate({left:parseInt($(".innerSucess").css("left"))+parseInt($('.success_box').width())},300);
-			$(".newsLeftArrow2").css("left",15);
-			$(".newsRightArrow2").css("left",parseInt($(".picture_box").width()));
 		}
 	})
 	$(".newsRightArrow2").click(function(){
@@ -222,10 +263,9 @@ window.onload = function(){
 			$(".innerSucess").css("left","-parseInt($('.success_box').width())");
 		}else{
 			$(".innerSucess").animate({left:parseInt($(".innerSucess").css("left"))-parseInt($('.success_box').width())},300);
-			$(".newsRightArrow2").css("left",2*parseInt($(".picture_box").width()));
-			$(".newsLeftArrow2").css("left",parseInt($(".picture_box").width())+15);
 		}
 	})
+//	$(".success_text").width($(".success_text").parents(".innerSucess_box").width())
 //提交订单
 	get_total();
 	function get_total(){
@@ -348,8 +388,10 @@ window.onload = function(){
 
         })
 	//我的 页面
+	$("#toPay").text($(".waitComment .toPay").length);//待付款
+	$("#toSend").text($(".waitComment .toSendGoods").length);//待发货
 	$("#toGet").text($("#mine_logistics .logistics_item").length);//待收货
-	$("#toEva").text($(".waitComment .table_goodsInfo").length);//待评价
+	$("#toEva").text($(".waitComment .toCom").length);//待评价
 	$(".confirm_fetchG").click(function(){
 		if(confirm("确认您已查收了吗？")){
 			$(this).parents(".logistics_item").remove();
@@ -357,40 +399,128 @@ window.onload = function(){
 			$("#toEva").text(parseInt($("#toEva").text())+1);
 		};
 	})
+	$(".allOrder_confirm").click(function(){
+		if(confirm("确认您已查收了吗？")){
+			$(this).parents(".toGetGoods").remove();
+			$("#toGet").text($("#waitComment .toGetGoods").length);
+			$("#toEva").text(parseInt($("#toEva").text())+1);
+		};
+	})
+	//评论跳转页的上传
+	$("#fileCom").change(function(){
+		var fileCom=document.getElementById("fileCom");
+		if(fileCom.files.length>5){
+			$("#fileCom").val("");
+			alert("最多只能选择五张图片，请重新选择")
+		}else{
+			$("#picNums").text(fileCom.files.length);
+		}
+	})
+    $("#file_upload2").change(function () {//退货-上传图片限制
+    	var file_upload=document.getElementById("file_upload2");
+    	$("#preview").html("");
+    	if(file_upload.files.length>5){
+    		alert("最多只能选择五张图片，请重新选择");
+    		$("#file_upload").val("");
+    	}else{
+    		var fil = this.files;
+	        for (var i = 0; i < fil.length; i++) {
+	            reads(fil[i]);
+	        	}
+    	}
+	   });
+    $("#file_upload").change(function () {//退货-上传图片限制
+    	var file_upload=document.getElementById("file_upload");
+    	$("#preview").html("");
+    	if(file_upload.files.length>5){
+    		alert("最多只能选择五张图片，请重新选择");
+    		$("#file_upload").val("");
+    	}else{
+    		var fil = this.files;
+	        for (var i = 0; i < fil.length; i++) {
+	            reads(fil[i]);
+	        	}
+    	}
+	   });
+	function reads(fil){
+	    var reader = new FileReader();
+	    reader.readAsDataURL(fil);
+	    reader.onload = function()
+	    {
+	        document.getElementById("preview").innerHTML += "<img src='"+reader.result+"'>";
+	    };
+	  }
+	//我的页面待付款点击功能
+	$(".myOrder").click(function(){
+		window.location.href="我的+1.html1";
+	})
+	$("#to_pay").click(function(){
+		$(".mine_main2").css("display","block").siblings().hide();
+		$(".toPay").show();
+		$(".toSendGoods").hide();
+		$(".toGetGoods").hide();
+		$(".toCom").hide();
+		$("#bar_toPay").addClass("main_liActive").siblings().removeClass("main_liActive");
+	})
+	$("#to_send").click(function(){
+		$(".mine_main2").css("display","block").siblings().hide();
+		$(".toSendGoods").show();
+		$(".toPay").hide();
+		$(".toGetGoods").hide();
+		$(".toCom").hide();
+		$("#bar_toSend").addClass("main_liActive").siblings().removeClass("main_liActive");
+	})
+	$("#to_get").click(function(){
+		$(".mine_main2").css("display","block").siblings().hide();
+		$(".toGetGoods").show();
+		$(".toPay").hide();
+		$(".toSendGoods").hide();
+		$(".toCom").hide();
+		$("#bar_toget").addClass("main_liActive").siblings().removeClass("main_liActive");
+	})
+	$("#to_com").click(function(){
+		$(".mine_main2").css("display","block").siblings().hide();
+		$(".toCom").show();
+		$(".toPay").hide();
+		$(".toSendGoods").hide();
+		$(".toGetGoods").hide();
+		$("#bar_toCom").addClass("main_liActive").siblings().removeClass("main_liActive");
+	})
 	//我的2页面
+	$("#comTa1").focus();//评论跳转后第一个文本框获得焦点
 	$("#bar_toPay").click(function(){
-		$(".toPay").css("display","compact");
-		$(".toSendGoods").css("display","none");
-		$(".toGetGoods").css("display","none");
-		$(".toCom").css("display","none");
+		$(".toPay").show();
+		$(".toSendGoods").hide();
+		$(".toGetGoods").hide();
+		$(".toCom").hide();
 		$("#bar_toPay").addClass("main_liActive").siblings().removeClass("main_liActive");
 	})
 	$("#bar_toSend").click(function(){
-		$(".toSendGoods").css("display","compact");
-		$(".toPay").css("display","none");
-		$(".toGetGoods").css("display","none");
-		$(".toCom").css("display","none");
+		$(".toSendGoods").show();
+		$(".toPay").hide();
+		$(".toGetGoods").hide();
+		$(".toCom").hide();
 		$("#bar_toSend").addClass("main_liActive").siblings().removeClass("main_liActive");
 	})
 	$("#bar_toget").click(function(){
-		$(".toGetGoods").css("display","compact");
-		$(".toPay").css("display","none");
-		$(".toSendGoods").css("display","none");
-		$(".toCom").css("display","none");
+		$(".toGetGoods").show();
+		$(".toPay").hide();
+		$(".toSendGoods").hide();
+		$(".toCom").hide();
 		$("#bar_toget").addClass("main_liActive").siblings().removeClass("main_liActive");
 	})
 	$("#bar_toCom").click(function(){
-		$(".toCom").css("display","compact");
-		$(".toPay").css("display","none");
-		$(".toGetGoods").css("display","none");
-		$(".toSendGoods").css("display","none");
+		$(".toCom").show();
+		$(".toPay").hide();
+		$(".toGetGoods").hide();
+		$(".toSendGoods").hide();
 		$("#bar_toCom").addClass("main_liActive").siblings().removeClass("main_liActive");
 	})
 	$("#bar_allOrder").click(function(){
-		$(".toSendGoods").css("display","compact");
-		$(".toPay").css("display","compact");
-		$(".toGetGoods").css("display","compact");
-		$(".toCom").css("display","compact");
+		$(".toSendGoods").show();
+		$(".toPay").show();
+		$(".toGetGoods").show();
+		$(".toCom").show();
 		$("#bar_allOrder").addClass("main_liActive").siblings().removeClass("main_liActive");
 	})
 	//物品详情评论页
@@ -428,13 +558,57 @@ window.onload = function(){
 		$('.AddToCart').click(function(){
 		   $('.shopCount').text(parseInt($('.shopCount').text())+1);
 		});
-    
         //地址插件
         $("#city").click(function (e) {
 			SelCity(this,e);
 		    console.log("inout",$(this).val(),new Date())
 		});
-            
-	
+		//个人账户设置插件---年月日
+//  	new YMDselect('year1','month1','day1',2010,3,20);    
+		//。。。
+//		$("#distpicker").distpicker();
+		//个人账户设置JS
+		var emailNum =$ ('.emailNum').text();
+		var phoneNum =$ ('.phoneNum').text();
+		 
+//		var perRealName=$("#perRealName").text();//真实姓名
+		var reg = new RegExp("(\\d{3})(\\d{4})(\\d{4})");//
+//		var regg=new RegExp("([\\u4e00-\\u9fa5]{1})([\\u4e00-\\u9fa5]{1,})")
+		
+		var tel = emailNum.replace(reg, "$1****$3");
+		var tel2 = phoneNum.replace(reg, "$1****$3");
+//		var realname=perRealName.replace(regg,"$1**");
+//		$("#perRealName").text(realname);
+		$ ('.emailNum').text(tel);
+		$ ('.phoneNum').text(tel2);
+		 var adindex=0;
+        $('.liPanel > li').on('click',function(){
+            adindex = $(".liPanel li").index($(this));
+            $('.adPanelContent>div').eq(adindex).show().siblings('.adPList').hide();
+        })
+        //个人账户设置--点击删除按钮
+		$('.del').click(function(){
+		   if(confirm('您确定要删除这条地址吗？')){
+		      $(this).parents('tr').remove();
+		   }
+		})
+        //买家申请退货表单
+        $("#retSubmit").on("click",function(){
+        	var whatGoods=$(".return_goods p").text();
+        	var goodsType=$(".return_goods i").text();
+        	var returnType=$('input:radio[name="reMon"]:checked').val();
+        	var returnMoney=$("#retMoney").val();
+        	var ret_explain=$("#retExplain").val();
+        	var uploadPic = $('#file_upload').get(0).files;
+//      	alert(whatGoods+11+goodsType+11+returnType+11+returnMoney+ret_explain+uploadPic);
+			$.ajax({
+				type:"get",
+				url:"",
+				dataType:"josn",
+			});
+        })
+        
+        
+        
 	})
 }

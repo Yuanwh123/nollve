@@ -26,6 +26,7 @@
 									<li><a href="我的2.html">我的订单</a></li>
 									<li><a href="../second/collection">收藏</a></li>
 									<li><a href="../second/comment">评价</a></li>
+									
 								</ol>
 							</li>
 							<li class="clearfix"><a href="../first/jour">新闻中心</a></li>
@@ -48,6 +49,7 @@
 						<li class="mine_c"><a href="mine" id="owned_">已买到的宝贝</a><span></span></li>
 						<li><a href="collection">我的收藏</a></li>
 						<li><a href="comment">评价管理</a></li>
+						<li><a href="accountSet">账户设置</a></li>
 					</ul>
 				</div>
 				<div class="mine_main fl">

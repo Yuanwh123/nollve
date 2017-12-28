@@ -31,12 +31,9 @@
                 		frist(res);//产品信息
                 		second(res);
                 		third(res);
-                		cart(res);
-                		bought();
-                	}else{
-                		
+                		cart(res);//加入购物车
+                		bought(res);//直接购买
                 	}
-                	
 				},
                 error: function () {
                     alert("网络错误");
@@ -44,37 +41,54 @@
 			})
 		});
 		//直接购买
-		function bought(){
+		function bought(res){
 			$('.bought').click(function(){
-				
-				alert("1");
-			});
-		}
-		//购物车
-		function cart(res){
-			$('.AddToCart').click(function(){
-				var p = $(".acc_goodsNum").html();
-				var g = $(".dl3Active").html();
-				var date={};
-				data.userId = 1;
-				data.goodsInf=res.data.goodsName;
-				data.num=p;
-				data.spec=g;
-				data.price=339;
+				var data = order(res);
+				order(res);
 				$.ajax({
 					url: url+"goods/goodsCart.do",
 	            	data: data,
 	                dataType: "json",
 	                success:function(resu){
 	                	if(resu.code == 200){
-	                		alert(resu.data);
+	                		window.location.href="../third/med?orderId="+resu.data+"";
 	                	}
 	                },
 	                error: function () {
 	                    alert("网络错误");
 	                }
 				});
-				
+			});
+		}
+		function order(res){
+			var p = $(".acc_goodsNum").html();
+			var g = $(".dl3Active").html();
+			var date={};
+			data.userId = 1;
+			data.goodsInf=res.data.goodsName;
+			data.num=p;
+			data.spec=g;
+			data.price=339;
+			data.pic=res.data.goodsPic[0].small0;
+			return data;
+		}
+		//购物车
+		function cart(res){
+			var data = order(res);
+			$('.AddToCart').click(function(){
+				$.ajax({
+					url: url+"goods/goodsCart.do",
+	            	data: data,
+	                dataType: "json",
+	                success:function(resu){
+	                	if(resu.code == 200){
+	                		alert("加入购物车成功");
+	                	}
+	                },
+	                error: function () {
+	                    alert("网络错误");
+	                }
+				});
 			});
 		}
 		function second(res){
@@ -136,7 +150,7 @@
 				hh+='<div class="addshop">';
 				hh+='<span class="AddToCart">加入购物车</span>   ';
 				hh+='<a href="#" class="bought">直接购买</a>   ';
-				hh+='<a href="#"><img src="../img/wjx.png"></a>';
+				hh+='<div class="scIcon"><img src="../img/wjx.png"></div>';
 				hh+='</div>';
             	dcWrapDes.innerHTML=hh;
 		}
@@ -152,7 +166,7 @@
                 <li class="clearfix"><a href="../first/prod">产品中心</a></li>
                 <li class="clearfix"><a href="../first/mall" class="gw_firstA">网上商城</a>
                     <ol>
-						<li><a href="../second/index">首页</a></li>
+						<li><a href="../first/index">首页</a></li>
 						<li><a href="../second/mine">我的</a></li>
 						<li><a href="../second/cart">购物车</a></li>
 						<li><a href="../second/order">我的订单</a></li>

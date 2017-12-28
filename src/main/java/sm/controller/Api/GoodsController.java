@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 
 import sm.pojo.NoveOrders;
+import sm.pojo.NoveSendaddr;
 import sm.service.GoodsService;
 import sm.utils.model.DefaultResultModel;
 @Controller
@@ -56,14 +57,19 @@ public class GoodsController {
      * @param num   商品数量
      * @param spec   商品规格
      * @param price   商品价格
+     * @param pic	商品图片
      * @return 商品返回数据体
      */
     @RequestMapping("/goodsCart.do")
     @ResponseBody()
-    public DefaultResultModel showGoodsCart(Integer userId,String goodsInf,Integer num,String spec,String price) {
+    public DefaultResultModel showGoodsCart(Integer userId,String goodsInf,Integer num,String spec,String price,String pic) {
     	DefaultResultModel resultModel = DefaultResultModel.getInstance();
-    	int result = goodsServiceImpl.InsertCart(userId,goodsInf,num,spec,price);
-    	return resultModel.packageObject(result, "加入购物车成功");
+    	String value = goodsServiceImpl.InsertCart(userId,goodsInf,num,spec,price,pic);
+    	int numb =-702;
+    	if(value != "") {
+    		numb=200;
+    	}
+    	return resultModel.packageObject(numb,value);
     }
     /**
      * 购物车列表
@@ -81,5 +87,39 @@ public class GoodsController {
     		num = 1;
     	}
     	return resultModel.packageObject(num, result);
+    }
+    /**
+     * 确认订单信息
+     *
+     * @param orderId   订单id
+     * @return 商品返回数据体
+     */
+    @RequestMapping("/goodsOrderSure.do")
+    @ResponseBody()
+    public DefaultResultModel showGoodsOrderSure(String orderId) {
+    	DefaultResultModel resultModel = DefaultResultModel.getInstance();
+    	List<NoveOrders> j =goodsServiceImpl.GoodsOrderSure(orderId);
+    	int result = 0;
+    	if(j !=null) {
+    		result =200;
+    	}
+    	return resultModel.packageObject(result, j);
+    }
+    /**
+     * 收货地址列表
+     *
+     * @param userId   订单id
+     * @return 商品返回数据体
+     */
+    @RequestMapping("/goodsAddr.do")
+    @ResponseBody()
+    public DefaultResultModel showGoodsAddr(Integer userId) {
+    	DefaultResultModel resultModel = DefaultResultModel.getInstance();
+    	List<NoveSendaddr> noveSendaddr  = goodsServiceImpl.GoodsAddr(userId);
+    	int result = -703;
+    	if(noveSendaddr !=null) {
+    		result =200;
+    	}
+    	return resultModel.packageObject(result, noveSendaddr);
     }
 }

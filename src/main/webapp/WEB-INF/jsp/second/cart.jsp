@@ -31,10 +31,6 @@
 			//结算
 			function settlement(){
 				$("#settlement").click(function(){
-					var num = $(".checkedGoods").html();
-					if(num == 0){
-						alert("亲,你还没有选择商品呢!");
-					}
 					var obj=document.getElementsByName('checkA2');
 					var s='';
 					for(var i=0; i<obj.length; i++){
@@ -43,7 +39,11 @@
 							s+=obj[i].value+','
 						}
 					}
-					alert(s==''?'你还没有选择任何内容！':s);
+					if(s==''){
+						alert("你还没有选择任何内容！");
+					}else{
+						window.location.href="../third/med?orderId="+s.substring(0,s.length-1);
+					}
 				})
 			}
 			function list(res){
@@ -54,7 +54,7 @@
 					list+=	'<td class="clearfix">';
 					list+='<input type="checkbox" name="checkA2" id="checkA2" value="'+res.data[i].orderId+'" class="checkAll fl" checked="checked"/>';
 					list+='<div class="acc_g_boxLeft fl">';
-					list+='<img src="../img/goods1.png"/>';
+					list+='<img src="'+res.data[i].orderPic+'"/>';
 					list+='</div>';
 					list+='<p class="acc_goods_des fl">'+res.data[i].orderGoodsInf+'</p>';
 					list+='</td>';

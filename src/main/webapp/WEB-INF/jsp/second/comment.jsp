@@ -23,7 +23,7 @@
 									<li><a href="../first/index">首页</a></li>
 									<li><a href="../second/mine">我的</a></li>
 									<li><a href="../second/cart">购物车</a></li>
-									<li><a href="我的2.html">我的订单</a></li>
+									<li><a href="../second/order">我的订单</a></li>
 									<li><a href="../second/collection">收藏</a></li>
 									<li><a href="../second/comment">评价</a></li>
 								</ol>
@@ -48,6 +48,7 @@
 						<li class="mine_c"><a href="bought">已买到的宝贝</a><span></span></li>
 						<li><a href="collection">我的收藏</a></li>
 						<li><a href="#" id="comRegis">评价管理</a></li>
+						<li><a href="accountSet">账户设置</a></li>
 					</ul>
 				</div>
 				<div class="mine_main fl">

@@ -29,6 +29,12 @@
     from nove_user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
+  <select id="selectUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	 select 
+    user_id
+    from nove_user
+    where user_name = #{userName,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbggenerated

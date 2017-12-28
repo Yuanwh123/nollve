@@ -1,28 +1,38 @@
 package sm.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import sm.dao.NoveGoodsMapper;
 import sm.dao.NoveOrdersMapper;
+import sm.dao.NoveSendaddrMapper;
+import sm.dao.NoveUserMapper;
 import sm.pojo.NoveGoods;
 import sm.pojo.NoveOrders;
+import sm.pojo.NoveSendaddr;
 import sm.service.GoodsService;
 
 @Service("goodsService")
+@Transactional
 public class GoodsServiceImpl implements GoodsService {
 	
 	@Autowired
 	private NoveGoodsMapper noveGoodsMapper;
 	@Autowired
 	private NoveOrdersMapper noveOrderMapper;
+	@Autowired
+	private NoveSendaddrMapper noveSendaddrMapper;
+	@Autowired
+	private NoveUserMapper noveUserMapper;
 	
 	public JSONObject getSelectResult(Integer goodsId) {
 		List<NoveGoods> noveGoods = noveGoodsMapper.selectLeft(goodsId);
@@ -65,10 +75,11 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	//加入购物车
-	public int InsertCart(Integer userId,String goodsId, Integer num, String spec, String price) {
+	public String InsertCart(Integer userId,String goodsId, Integer num, String spec, String price
+			,String pic) {
 		NoveOrders noveOrder =new NoveOrders();
 		noveOrder.setOrderId(UUID.randomUUID()+"");
-		noveOrder.setOrderPic("");
+		noveOrder.setOrderPic(pic);
 		String totalPrice = (num * Integer.parseInt(price))+"";
 		noveOrder.setOrderPrice(Double.parseDouble(totalPrice));
 		//1为加入购物车 2为订单结束
@@ -78,8 +89,12 @@ public class GoodsServiceImpl implements GoodsService {
 		noveOrder.setOrderGoodsInf(goodsId);
 		noveOrder.setUserid(userId);
 		noveOrder.setOrderGoodsNum(""+num);
-		noveOrderMapper.insert(noveOrder);
-		return 200;
+		int orderId = noveOrderMapper.insert(noveOrder);
+		if(orderId==1) {
+			
+			return noveOrder.getOrderId(); 
+		}
+		return "";
 	}
 
 	
@@ -87,6 +102,29 @@ public class GoodsServiceImpl implements GoodsService {
 		List<NoveOrders> noveOrder = noveOrderMapper.selectByUserId(userId);
 		if(noveOrder!=null) {
 			return noveOrder;
+		}
+		return null;
+	}
+
+	
+	public List<NoveOrders> GoodsOrderSure(String orderId) {
+		List<NoveOrders> noveOrders=new ArrayList<NoveOrders>();
+		if(orderId.indexOf(",")>=0) {
+			String[] orders = orderId.split(",");
+			for(int i=0;i<orders.length;i++) {
+				noveOrders.add(noveOrderMapper.selectByPrimaryKey(orders[i]));
+			}
+		}else {
+			noveOrders.add(noveOrderMapper.selectByPrimaryKey(orderId));
+		}
+		return noveOrders;
+	}
+
+	@Override
+	public List<NoveSendaddr> GoodsAddr(Integer userId) {
+		List<NoveSendaddr> noveSend =noveSendaddrMapper.selectAddList(userId);
+		if(noveSend != null) {
+			return noveSend;
 		}
 		return null;
 	}

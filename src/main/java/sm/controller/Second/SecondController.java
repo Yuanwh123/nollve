@@ -44,6 +44,11 @@ public class SecondController {
 	 */
 	@RequestMapping("/comment")
 	public String adminMallCommentPage() {return  "second/comment";}
-	
+	/**
+	 * ’Àªß…Ë÷√
+	 * @ywh
+	 */
+	@RequestMapping("/accountSet")
+	public String adminMallAccountSetPage() {return  "second/accountSet";}
 	
 }

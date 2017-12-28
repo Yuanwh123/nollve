@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+
+<generatorConfiguration>
+    <!-- <properties resource="db.properties" /> -->
+    <classPathEntry location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.30\mysql-connector-java-5.1.30.jar" />
+    <context id="novella" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 删除代码中带有 代码生成器的注释信息 -->
+            <property name="suppressAllComments" value="false" />
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+        
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+            connectionURL="jdbc:mysql://localhost:3306/novella" 
+            userId="root"
+            password="930808" />
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+         <!-- 生成模型的包名和位置--> 
+        <javaModelGenerator targetPackage="sm.pojo" targetProject="F:\nollve\src\main\java">
+            <property name="enableSubPackages" value="true" /> 
+            <property name="trimStrings" value="true" /> 
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="sm.mapper" targetProject="F:\nollve\src\main\java">
+            <property name="enableSubPackages" value="true" /> 
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="sm.dao" targetProject="F:\nollve\src\main\java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" /> 
+        </javaClientGenerator>
+
+
+        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->    
+        <!--无论字段是什么类型，生成的类属性都是varchar -->
+        <!-- <table schema="btupayprod" tableName="T_INFO_MARKETING_CFG" enableSelectByExample="false" 
+            enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="fasle"> 
+            </table> -->
+        <!-- <columnOverride column="AFTER_AMT" jdbcType="VARCHAR" /> -->
+        <!-- <table schema="btupayprod" tableName="t_log_online_payment" enableSelectByExample="false" 
+            enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="fasle"> 
+            无论字段是什么类型，生成的类属性都是varchar <columnOverride column="AFTER_AMT" jdbcType="VARCHAR" 
+            /> </table> -->
+
+        <table schema="novella" tableName="nove_admin" domainObjectName="NoveAdmin" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+           enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+        <table schema="novella" tableName="nove_catg" domainObjectName="NoveCatg" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table>    
+
+        <table schema="novella" tableName="nove_catgSecond" domainObjectName="NoveCatgSecond" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+        <table schema="novella" tableName="nove_collection" domainObjectName="NoveCollection" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+        
+        <table schema="novella" tableName="nove_comment" domainObjectName="NoveComment" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+        
+        <table schema="novella" tableName="nove_goods" domainObjectName="NoveGoods" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+        
+        <table schema="novella" tableName="nove_goodsSize" domainObjectName="NoveGoodsSize" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+        
+        <table schema="novella" tableName="nove_order_goods" domainObjectName="NoveOrderGoods" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+        
+        <table schema="novella" tableName="nove_orders" domainObjectName="NoveOrders" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+         <table schema="novella" tableName="nove_orderStatus" domainObjectName="NoveOrderStatus" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+         <table schema="novella" tableName="nove_sendaddr" domainObjectName="NoveSendaddr" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+        
+         <table schema="novella" tableName="nove_user" domainObjectName="NoveUser" enableCountByExample="false" enableUpdateByExample="false"    
+           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">    
+        </table> 
+
+       </context> 
+</generatorConfiguration>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+  http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+  http://www.springframework.org/schema/context  
+  http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+  http://www.springframework.org/schema/mvc  
+  http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+  		<!-- 自动扫描 -->
+  		<context:component-scan base-package="sm.*" />
+  		<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+  		<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" init-method="init"> 
+	<property name="username" value="${username}"/>
+	<property name="password" value="${password}"/>
+	<property name="url" value="${url}"/>
+	<property name="driverClassName" value="${driver}"/>
+	<property name="minIdle" value="${minIdle}"/>
+	<property name="maxIdle" value="${maxIdle}"/>
+	<!-- 最 连接数量-->
+	<property name="maxActive" value="${maxActive}"/>
+	<property name="initialSize" value="${initialSize}"/>
+	<!-- 最大空闲时间,60秒内未使用则连接被丢弃,若为0则永不丢弃-->
+	<property name="maxWait" value="${maxWait}"/> 
+	<!--  配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"/> 
+	<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"/>
+	<property name="testWhileIdle" value="${testWhileIdle}" />	
+  	 <!-- 打开PSCache，并且指定每个连接上PSCache的大小 --> 
+  	<property name="poolPreparedStatements" value="${poolPreparedStatements}" /> 
+  	<property name="maxPoolPreparedStatementPerConnectionSize" value="${maxPoolPreparedStatementPerConnectionSize}" />
+  	<!-- 配置监控统计拦截的filters -->
+	</bean>
+	<!-- mapperLocations 属性使用一个资源位置的 list。 这个属性可以用来指定 MyBatis 的 XML 映射器文件的位置。 
+	它的值可以包含 Ant 样式来加载一个目录中所有文件, 或者从基路径下 递归搜索所有路径 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations" value="classpath:sm/mapper/*.xml"/>
+	</bean>
+	<!--basePackage ：告知需要扫描的包，那么在这个包下面所有的接口都会被扫描到
+	sqlSessionFactoryBeanName这个属性一般都用不到，只有当你配置多数据源的时候，这是会有多个sqlSessionFactory，你就需要通过该属性来指定哪一个sqlSessionFactory-->
+	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+ 		<property name="basePackage" value="sm.dao"/>
+	</bean>
+	<!-- 事物配置 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"/>
+	</bean> 
+	
+  </beans>

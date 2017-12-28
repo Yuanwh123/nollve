@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="sm.dao.LoginMapper">
+  <resultMap id="BaseResultMap" type="sm.model.UserInf" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="cjsj" property="cjsj" jdbcType="TIMESTAMP" />
+    <result column="person_id" property="personId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="common_id" property="commonId" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,username,password,mobile,cjsj,person_id,goods_id,common_id,nickname
+  </sql>
+  <select id="getRoleName" resultMap="BaseResultMap">
+  		select 
+  		<include refid="Base_Column_List"/>
+  		 from user_inf 
+  		where 1=1
+  		<if test="username !=null">
+  			AND username=#{username}
+  		</if>
+  </select>
+  <select id="getRoleMobile" resultMap="BaseResultMap">
+  		select 
+  		<include refid="Base_Column_List"/>
+  		 from user_inf 
+  		where 1=1
+  		<if test="mobile !=null">
+  			AND mobile=#{mobile}
+  		</if>
+  </select>
+  <insert id="insertRole" parameterType="sm.model.UserInf">
+  		insert into user_inf
+  		<trim prefix="(" suffix=")" suffixOverrides="," >
+  		<if test="id !=null">
+  			id,
+  		</if>
+  		<if test="username !=null">
+  			username,
+  		</if>
+  		<if test="password !=null">
+  			password,
+  		</if>
+  		<if test="mobile !=null">
+  			mobile,
+  		</if>
+  		<if test="cjsj !=null">
+  			cjsj,
+  		</if>
+  		<if test="personId !=null">
+  			person_id,
+  		</if>
+  		<if test="goodsId !=null">
+  			goods_id,
+  		</if>
+  		<if test="common_id !=null">
+  			common_id,
+  		</if>
+  		<if test="nickname !=null">
+  			nickname,
+  		</if>
+  		</trim>
+  		<trim prefix="values (" suffix=")" suffixOverrides="," >
+  		<if test="id !=null">
+  			#{id,jdbcType=INTEGER},
+  		</if>
+  		<if test="username !=null">
+  			#{username,jdbcType=VARCHAR},
+  		</if>
+  		<if test="password !=null">
+  			#{password,jdbcType=VARCHAR},
+  		</if>
+  		<if test="mobile !=null">
+  			#{mobile,jdbcType=VARCHAR},
+  		</if>
+  		<if test="cjsj !=null">
+  			#{cjsj,jdbcType=TIMESTAMP},
+  		</if>
+  		<if test="personId !=null">
+  			#{person_id,jdbcType=VARCHAR},
+  		</if>
+  		<if test="goodsId !=null">
+  			#{goods_id,jdbcType=INTEGER},
+  		</if>
+  		<if test="commonId !=null">
+  			#{common_id,jdbcType=INTEGER},
+  		</if>
+  		<if test="nickname !=null">
+  			#{nickname,jdbcType=VARCHAR},
+  		</if>
+  		</trim>
+  </insert>
+  <update id="updateRolePassword" parameterType="sm.model.UserInf">
+  	update user_inf set password=#{password} where mobile=#{mobile}
+  </update>
+ </mapper>

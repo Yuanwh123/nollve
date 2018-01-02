@@ -222,6 +222,6 @@
 		a.goods_name,a.goods_pic,a.goods_area,
 		b.goods_price,b.goods_size
 		from nove_goods a LEFT JOIN  nove_goodssize b ON
- 		a.goods_id=b.goodsId WHERE  a.goods_id=#{goodsId,jdbcType=INTEGER}
+ 		a.goods_catgsecondId=b.goodsId WHERE  a.goods_id=#{goodsId,jdbcType=INTEGER}
   </select>
 </mapper>

@@ -149,4 +149,5 @@
    <update id="updateRolePassword" parameterType="sm.pojo.NoveUser">
   	update nove_user set password=#{password} where user_tel=#{userTel}
   </update>
+  
 </mapper>

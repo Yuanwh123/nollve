@@ -1,5 +1,8 @@
 package sm.service.impl;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,10 +37,12 @@ public class GoodsServiceImpl implements GoodsService {
 	@Autowired
 	private NoveUserMapper noveUserMapper;
 	
+	private static SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
 	public JSONObject getSelectResult(Integer goodsId) {
 		List<NoveGoods> noveGoods = noveGoodsMapper.selectLeft(goodsId);
 		JSONObject goods_list=null;
-		if(noveGoods!=null) {
+		if(noveGoods.size()>0) {
 			goods_list =new JSONObject();
 			goods_list.put("goodsName",noveGoods.get(0).getGoodsName());
 			String pic =noveGoods.get(0).getGoodsPic();
@@ -76,7 +81,7 @@ public class GoodsServiceImpl implements GoodsService {
 
 	//加入购物车
 	public String InsertCart(Integer userId,String goodsId, Integer num, String spec, String price
-			,String pic) {
+			,String pic,Integer GId) {
 		NoveOrders noveOrder =new NoveOrders();
 		noveOrder.setOrderId(UUID.randomUUID()+"");
 		noveOrder.setOrderPic(pic);
@@ -84,10 +89,15 @@ public class GoodsServiceImpl implements GoodsService {
 		noveOrder.setOrderPrice(Double.parseDouble(totalPrice));
 		//1为加入购物车 2为订单结束
 		noveOrder.setOrderStatus(1);
-		noveOrder.setOrderDate(new Date());
+		try {
+			noveOrder.setOrderDate(new Timestamp(System.currentTimeMillis()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		noveOrder.setOrderSpec(spec);
 		noveOrder.setOrderGoodsInf(goodsId);
 		noveOrder.setUserid(userId);
+		noveOrder.setOrderGoodsId(GId);
 		noveOrder.setOrderGoodsNum(""+num);
 		int orderId = noveOrderMapper.insert(noveOrder);
 		if(orderId==1) {
@@ -96,7 +106,61 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 		return "";
 	}
-
+	//立即购买
+		public String InsertCartBuy(Integer userId,String goodsId, Integer num, String spec, String price
+				,String pic,Integer GId) {
+			NoveOrders noveOrder =new NoveOrders();
+			noveOrder.setOrderId(UUID.randomUUID()+"");
+			noveOrder.setOrderPic(pic);
+			String totalPrice = (num * Integer.parseInt(price))+"";
+			noveOrder.setOrderPrice(Double.parseDouble(totalPrice));
+			//1为加入购物车 2为立即购买 3为收藏
+			noveOrder.setOrderStatus(2);
+			try {
+				noveOrder.setOrderDate(new Timestamp(System.currentTimeMillis()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			noveOrder.setOrderSpec(spec);
+			noveOrder.setOrderGoodsInf(goodsId);
+			noveOrder.setUserid(userId);
+			noveOrder.setOrderGoodsId(GId);
+			noveOrder.setOrderGoodsNum(""+num);
+			
+			int orderId = noveOrderMapper.insert(noveOrder);
+			if(orderId==1) {
+				
+				return noveOrder.getOrderId(); 
+			}
+			return "";
+		}
+		//收藏
+		public String InsertCartColl(Integer userId,String goodsId, Integer num, String spec, String price
+				,String pic,Integer GId) {
+			NoveOrders noveOrder =new NoveOrders();
+			noveOrder.setOrderId(UUID.randomUUID()+"");
+			noveOrder.setOrderPic(pic);
+			String totalPrice = (num * Integer.parseInt(price))+"";
+			noveOrder.setOrderPrice(Double.parseDouble(totalPrice));
+			//1为加入购物车 2为订单结束
+			noveOrder.setOrderStatus(3);
+			try {
+				noveOrder.setOrderDate(new Timestamp(System.currentTimeMillis()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			noveOrder.setOrderSpec(spec);
+			noveOrder.setOrderGoodsInf(goodsId);
+			noveOrder.setUserid(userId);
+			noveOrder.setOrderGoodsId(GId);
+			noveOrder.setOrderGoodsNum(""+num);
+			int orderId = noveOrderMapper.insert(noveOrder);
+			if(orderId==1) {
+				
+				return noveOrder.getOrderId(); 
+			}
+			return "";
+		}
 	
 	public List<NoveOrders> GoodsList(Integer userId) {
 		List<NoveOrders> noveOrder = noveOrderMapper.selectByUserId(userId);
@@ -128,5 +192,77 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 		return null;
 	}
+
+	@Override
+	public int CartNum(Integer userId) {
+		List<NoveOrders> noveOrder = noveOrderMapper.selectByUserId(userId);
+		if(noveOrder.size()!=0) {
+			return noveOrder.size();
+		}
+		return 0;
+	}
+
+	@Override
+	public int updateCartDatas(String value) {
+		String[] val = value.split(",");
+		try {
+			for(int i=0;i<val.length;i++) {
+				if(i%3==0) {
+					NoveOrders noveOrder =new NoveOrders();
+					noveOrder.setOrderId(val[i]);
+					noveOrder.setOrderGoodsNum(val[i+1]);
+					noveOrder.setOrderPrice(Double.parseDouble(val[i+2]));
+					noveOrderMapper.updateByPrimaryKeySelective(noveOrder);
+				}
+			}
+			return 200;
+		}catch(Exception e) {
+			return -704;
+		}
+	}
+
+	@Override
+	public List<NoveOrders> ColNum(Integer userId) {
+		List<NoveOrders> noveOrder = noveOrderMapper.selectColByUserId(userId);
+		if(noveOrder!=null) {
+			return noveOrder;
+		}
+		return null;
+	}
+
+	
+	public int GoodsDelAddr(Integer userId) {
+		int result =noveSendaddrMapper.deleteByPrimaryKey(userId);
+		if(result == 1) {
+			return 200;
+		}
+		return 0;
+	}
+
+	@Override
+	public int GoodsInseAddr(NoveSendaddr obj) {
+		NoveSendaddr noveSend= new NoveSendaddr();
+		if(obj !=null) {
+			int res =0;
+			if(obj.getSendaddrDefaultstatus()==1) {
+				res = noveSendaddrMapper.updateColStatus();
+			}
+			try {
+					noveSend.setSendaddrAddr(obj.getSendaddrAddr());
+					noveSend.setUserid(obj.getUserid());
+					noveSend.setSendaddrArea(obj.getSendaddrArea());
+					noveSend.setSendaddrDefaultstatus(obj.getSendaddrDefaultstatus());
+					noveSend.setSendaddrName(obj.getSendaddrName());
+					noveSend.setSendaddrTel(obj.getSendaddrTel());
+					noveSend.setSendaddrZipcode(obj.getSendaddrZipcode());
+					noveSendaddrMapper.insertSelective(noveSend);
+					return 200;
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return -706;
+	}
+	
 
 }

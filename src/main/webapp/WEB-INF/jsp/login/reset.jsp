@@ -8,11 +8,16 @@ pageEncoding="utf-8"%>
 		<link rel="stylesheet" href="css/mhwz.css" />
 		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="js/mhwz.js"></script>
+		<script type="text/javascript" src="js/url.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/landRegisCookie.js"></script> 
+		
 	</head>
 	<body>
 		<div class="outerDiv">
 			<img src="img/landBg.png"/>
-			<form action="#" method="post" class="resetForm">
+			<form action="#" method="post" class="resetForm" id="resetForm">
 				<div class="form_inner">
 					<div class="welDiv">
 						重置密码
@@ -25,7 +30,7 @@ pageEncoding="utf-8"%>
 					</div>
 				</div>
 				<div class="regLand"><a href="login">登陆</a></div>
-				<div class="landD"><input type="submit" value="确定" name="reset" id="reset"/></div>
+				<div class="landD"><input type="button" value="确定" name="reset" id="reset"/></div>
 			</form>
 			
 		</div>

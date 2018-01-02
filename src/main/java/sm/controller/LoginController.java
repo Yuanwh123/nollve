@@ -41,9 +41,20 @@ public class LoginController {
         }
         int result = loginServiceImpl.adminLogin(session,account, password);
         if(result == 200) {
-        	session.setAttribute("username", account);
+        	session.setAttribute(account, account);
+        	session.setAttribute("pwd", password);
         }
         return resultModel.packageObject(result, "登录成功");
+    }
+    /**
+     * 商城点击验证码
+     */
+    @RequestMapping("/regGetCode.do")
+    @ResponseBody
+    public DefaultResultModel adminRegGetCode(String mobile) {
+    	DefaultResultModel resultModel = DefaultResultModel.getInstance();
+    	int num=loginServiceImpl.regGetCode(mobile);
+    	return resultModel.packageObject(num, "123456");
     }
     /**
      * 商城用户注册接口
@@ -69,7 +80,7 @@ public class LoginController {
     	resp.setHeader("Access-Control-Allow-Origin", "*");
     	DefaultResultModel resultModel = DefaultResultModel.getInstance();
     	int result = loginServiceImpl.adminFind(mobile);
-    	return resultModel.packageObject(result, "12345");
+    	return resultModel.packageObject(result, "123456");
     }
     /**
      * 商城重置密码接口
@@ -90,10 +101,24 @@ public class LoginController {
      */
     @RequestMapping("/exit.do")
     @ResponseBody
-    public DefaultResultModel adminExit(HttpServletResponse resp,String mobile,String password) {
-    	
+    public DefaultResultModel adminExit(HttpServletResponse resp,HttpSession session,String account) {
     	DefaultResultModel resultModel = DefaultResultModel.getInstance();
-    	int result = loginServiceImpl.adminReset(mobile,password);
-    	return resultModel.packageObject(result, "重置密码成功");
+    	session.removeAttribute(account);
+    	return resultModel.packageObject(200, "退出成功");
+    }
+    /**
+     * 获取用户id
+     * @param account 用户名
+     */
+    @RequestMapping("/GetUserId.do")
+    @ResponseBody
+    public DefaultResultModel adminGetUserId(String account) {
+    	DefaultResultModel resultModel = DefaultResultModel.getInstance();
+    	int userId = loginServiceImpl.GetUserId(account);
+    	int result =0;
+    	if(userId !=0) {
+    		result =200;
+    	}
+    	return resultModel.packageObject(result, userId);
     }
 }

@@ -9,27 +9,10 @@ pageEncoding="utf-8"%>
 		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="js/mhwz.js"></script>
 		<script type="text/javascript" src="js/url.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$("#findCode").click(function(){
-					var data = {};
-			        data.mobile = $("#getP_phone").val();
-					$.ajax({
-						url: url+"login/passport/find.do",
-		            	data: data,
-		                dataType: "json",
-		                success:function(res){
-		                	alert(JSON.stringify(res));
-		                	alert(res.data);
-		                },
-		                error: function () {
-		                    alert("网络错误");
-		                    $("#landLand").attr("disabled", false).val('登陆');
-		                }
-					});
-				});
-			});
-		</script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/landRegisCookie.js"></script>
+		
 	</head>
 	<body>
 		<div class="outerDiv">
@@ -41,7 +24,7 @@ pageEncoding="utf-8"%>
 					</div>
 					<div class="getP_phone clearfix">
 						<input type="text" name="getP_phone" id="getP_phone" placeholder="请输入手机号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入手机号'" />
-						<i id="findCode">获取验证码</i>
+						<button type="button" id="getValidation">获取验证码</button>
 					</div>
 					<div class="regPhoneN getP_validate">
 						<input type="text" name="getP_validate" id="getP_validate" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'" />

@@ -8,72 +8,15 @@
 		<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="../js/mhwz.js"></script>
 		<script type="text/javascript" src="../js/url.js"></script>
-		<script type="text/javascript">
-			$(function(){
-				var data={};
-				data.userId=1;
-				$.ajax({
-					url: url+"goods/goodsLists.do",
-	            	data: data,
-	                dataType: "json",
-	                async:false, 
-	                success:function(res){
-	                	if(res.code == 200){
-	                		list(res);
-	                	}
-	                },
-	                error: function () {
-	                    alert("网络错误");
-	                }
-				})
-				settlement();
-			});
-			//结算
-			function settlement(){
-				$("#settlement").click(function(){
-					var obj=document.getElementsByName('checkA2');
-					var s='';
-					for(var i=0; i<obj.length; i++){
-						if(obj[i].checked)
-						{
-							s+=obj[i].value+','
-						}
-					}
-					if(s==''){
-						alert("你还没有选择任何内容！");
-					}else{
-						window.location.href="../third/med?orderId="+s.substring(0,s.length-1);
-					}
-				})
-			}
-			function list(res){
-				var account_table = document.getElementById("account_table");
-				var list ="";
-				for(var i=0;i<res.data.length;i++){
-					list+='<tr class="acc_firstRow">';
-					list+=	'<td class="clearfix">';
-					list+='<input type="checkbox" name="checkA2" id="checkA2" value="'+res.data[i].orderId+'" class="checkAll fl" checked="checked"/>';
-					list+='<div class="acc_g_boxLeft fl">';
-					list+='<img src="'+res.data[i].orderPic+'"/>';
-					list+='</div>';
-					list+='<p class="acc_goods_des fl">'+res.data[i].orderGoodsInf+'</p>';
-					list+='</td>';
-					list+='<td>商品属性：'+res.data[i].orderSpec+'ml洗发水</td>';
-					list+='<td class="acc_row_goodsOnePrice">'+res.data[i].orderPrice+'</td>';
-					list+='<td class="acc_reduceAndAdd">';
-					list+='<span class="acc_num_reduce">-</span><span class="acc_goodsNum">'+res.data[i].orderGoodsNum+'</span><span class="acc_num_add">+</span>';
-					list+='</td>';
-					list+='<td class="acc_row_total">'+res.data[i].orderPrice+'</td></tr>';
-
-				}
-				$(list).appendTo("#account_table");
-		}
-		</script>
+		<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../js/cart.js"></script>
 	</head>
 	<body>
+	
+<div class="bg_div"></div>
 		<div class="gwTop">
 			<div class="gwFlex2 clearfix">
-				<div class="logo"><img src="../img/index_logo.png"/></div>
+				<div class="logo"><a href="../firstPages"><img src="../img/index_logo.png"/></a></div>
 				<div class="logoNav fl clearfix">
 					<ul>
 						<li class="clearfix"><a href="../first/index" >网站首页</a></li>
@@ -94,9 +37,13 @@
 				<div class="searchBox fl">
 					<input type="text" name="searchBox" id="searchBox" value="" />
 				</div>
-				<div class="land fr">
-					<a href="#">注册</a> <span>丨</span><a href="#">登录</a>
-				</div>
+				<div class="land fr land1">
+						<a href="../regist">注册</a> <span>丨</span><a href="../login">登录</a>
+					</div>
+					<div class="land fr land2">
+						 <a href="../second/mine" class="userN"></a><span>丨</span><a href="#" class="quit">退出</a>
+					</div>
+			</div>
 			</div>
 		</div>
 		<div class="accountant">
@@ -152,8 +99,8 @@
 				<input type="checkbox" name="checkA3" id="checkA3" value="" /> <label for="checkA3">全选</label>
 				<div class="fr"><button id="settlement" style="cursor:pointer;">结算</button></div>
 				<div class="fr">
-					<span class="acc_span1">已购商品<i class="checkedGoods">1</i>件</span>
-					<span>合计（不含运费）：<i class="checkedPrice">198.00</i></span>
+					<span class="acc_span1">已购商品<i class="checkedGoods">0</i>件</span>
+					<span>合计（不含运费）：<i class="checkedPrice">0.00</i></span>
 				</div>
 			</div> 
 		</div>
@@ -162,34 +109,28 @@
 				<div class="footList clearfix">
 					<div class="listLeft clearfix fl">
 						<ul>
-							<a href="#"><li class="footerLi">选购及了解
+							<li class="footerLi"><span>选购及了解</span>
 							<ul>
-								<a href="#"><li class="footer_firstLi">洗发水</li></a>
-								<a href="#"><li>沐浴露</li></a>
-								<a href="#"><li>精油</li></a>
-								<a href="#"><li>洗面奶</li></a>
+								<a href="../first/mall"><li class="footer_firstLi">洗发水</li></a>
+								<a href="../first/mall"><li>沐浴露</li></a>
+								<a href="../first/mall"><li>精油</li></a>
+								<a href="../first/mall"><li>洗面奶</li></a>
 							</ul>
-							</li></a>
-							<a href="#"><li class="footerLi">关于我们
+							</li>
+							<li class="footerLi"><span>关于我们</span>
 								<ul>
-									<a href="#"><li class="footer_firstLi">公司简介</li></a>
-									<a href="#"><li>公司荣誉</li></a>
+									<a href="../first/index/#skip"><li class="footer_firstLi">公司简介</li></a>
 									<a href="#"><li>新闻资讯</li></a>
-									<a href="#"><li>联系我们</li></a>
+									<a href="javascript:;"><li class="contactUs">联系我们</li></a>
 								</ul>
-							</li></a>
-							<a href="#"><li class="footerLi">选购平台
+							</li>
+							<li class="footerLi"><span>选购平台</span>
 								<ul>
-									<a href="#"><li class="footer_firstLi">网上商城</li></a>
-									<a href="#"><li >京东旗舰店</li></a>
-									<a href="#"><li >天猫旗舰店</li></a>
+									<a href="../first/mall"><li class="footer_firstLi">网上商城</li></a>
+									<a href="https://mall.jd.com/index-626882.html" target="_blank"><li >京东旗舰店</li></a>
+									<a href="https://novella.tmall.hk/shop/view_shop.htm?spm=a230r.7195193.1997079397.2.hxfwHD" target="_blank"><li >天猫旗舰店</li></a>
 								</ul>
-							</li></a>
-							<a href="#"><li class="footerLi">快速链接
-								<ul>
-									<a href="#"><li  class="footer_firstLi">企业采购</li></a>
-								</ul>
-							</li></a>
+							</li>
 						</ul>
 					</div>
 					<div class="listRight clearfix">
@@ -207,14 +148,17 @@
 				</div>
 				<div class="copy clearfix">
 					<ul>
-						<li id="bo1"><a href="#">服务条款</a></li>
-						<li class="bo1"><a href="#">隐私政策</a></li>
-						<li class="bo2"><a href="#">版权所有-</a></li>
-						<li id="bo3">NOVELLA  LA MIA STORIA有限公司 苏ICP 备546675986号-1 </li>
+						<li id="bo1">服务条款</li>
+						<li class="bo1">隐私政策</li>
+						<li class="bo2">版权所有-</li>
+						<li id="bo3">NOVELLA  LA MIA STORIA 有限公司 苏ICP 备546675986号-1 </li>
 					</ul>
 					<a href="#"><img src="../img/returnTop.png" class="returnTop"/></a>
 				</div>
-				
+				<div class="phoneUs">
+					<div class="phoneHead">联系我们</div>
+					<div class="pnoneCon"><img src="../img/aa.phone.png"/>400-1234-678</div>
+				</div>
 			</div>
 	</body>
 </html>

@@ -7,12 +7,15 @@
 		<link rel="stylesheet" href="../css/mhwz.css" />
 		<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="../js/mhwz.js"></script>
+		<script type="text/javascript" src="../js/url.js"></script>
+		<script type="text/javascript" src="../js/jquery.cookie.js"></script>
 		
 	</head>
 	<body>
+	<div class="bg_div"></div>
 		<div class="gwTop">
 			<div class="gwFlex2 clearfix">
-				<div class="logo"><img src="../img/index_logo.png"/></div>
+				<div class="logo"><a href="../firstPages"><img src="../img/index_logo.png"/></a></div>
 				<div class="logoNav fl clearfix">
 						<ul>
 							<li class="clearfix"><a href="index" >网站首页</a></li>
@@ -34,9 +37,12 @@
 				<div class="searchBox fl">
 					<input type="text" name="searchBox" id="searchBox" value="" />
 				</div>
-				<div class="land fr">
-					<a href="#">注册</a> <span>丨</span><a href="#">登录</a>
-				</div>
+				<div class="land fr land1">
+						<a href="../regist">注册</a> <span>丨</span><a href="../login">登录</a>
+					</div>
+					<div class="land fr land2">
+						 <a href="../second/mine" class="userN"></a><span>丨</span><a href="#" class="quit">退出</a>
+					</div>
 			</div>
 		</div>
 		
@@ -63,9 +69,11 @@
 					<span></span>
 				</div>
 			</div>
+			<a name='mallskip'></a>
 			<div class="eshop_item clearfix">
 				<div class="picBox fl">
-					<img src="../img/cpPro1.png"/>
+					<a href="../third/goods?colStatus=1&goodsId=1">
+					<img src="../img/cpPro1.png"/></a>
 				</div>
 				<div class="proDescription fl">
 					<h3>NOVELLA</h3>
@@ -100,12 +108,14 @@
 					</div>
 				</div>
 				<div class="picBox fl">
-					<img src="../img/cpPro2.png"/>
+				<a href="../third/goods?colStatus=1&goodsId=2">
+					<img src="../img/cpPro2.png"/></a>
 				</div>
 			</div>
 			<div class="eshop_item clearfix">
 				<div class="picBox fl">
-					<img src="../img/cpPro3.png"/>
+				<a href="../third/goods?colStatus=1&goodsId=3">
+					<img src="../img/cpPro3.png"/></a>
 				</div>
 				<div class="proDescription fl">
 					<h3>NOVELLA</h3>
@@ -135,7 +145,7 @@
 	         <li>富含氨基酸</li>
 	      </ul>
 	      <p>深层清洁平衡控油&nbsp;头发清爽更飘逸</p >
-	      <a href="#">SHOP NOW</a>
+	      <a href="#mallskip">SHOP NOW</a>
 	   </div>
 	</div>
 			<div class="eshopList clearfix">
@@ -146,7 +156,7 @@
 					<div class="price">
 						<span>115</span>
 						<div class="clearfix">
-							<b class="b1">购买</b><br />
+							<input value="购买" type="button" name="4" class="b1" onclick="go(this)"/><br />
 							<b class="b2">RMB</b>
 						</div>
 					</div>
@@ -159,7 +169,7 @@
 					<div class="price">
 						<span>115</span>
 						<div class="clearfix">
-							<b class="b1">购买</b><br />
+							<input value="购买" type="button" name="5" class="b1" onclick="go(this)"/><br />
 							<b class="b2">RMB</b>
 						</div>
 					</div>
@@ -172,7 +182,7 @@
 					<div class="price">
 						<span>115</span>
 						<div class="clearfix">
-							<b class="b1">购买</b><br />
+							<input value="购买" type="button" name="6" class="b1" onclick="go(this)"/><br />
 							<b class="b2">RMB</b>
 						</div>
 					</div>
@@ -188,7 +198,7 @@
 					<div class="price">
 						<span>115</span>
 						<div class="clearfix">
-							<b class="b1">购买</b><br />
+							<input value="购买" type="button" name="7" class="b1" onclick="go(this)"/><br />
 							<b class="b2">RMB</b>
 						</div>
 					</div>
@@ -201,7 +211,7 @@
 					<div class="price">
 						<span>115</span>
 						<div class="clearfix">
-							<b class="b1">购买</b><br />
+							<input value="购买" type="button" name="8" class="b1" onclick="go(this)"/><br />
 							<b class="b2">RMB</b>
 						</div>
 					</div>
@@ -252,34 +262,28 @@
 				<div class="footList clearfix">
 					<div class="listLeft clearfix fl">
 						<ul>
-							<a href="#"><li class="footerLi">选购及了解
+							<li class="footerLi"><span>选购及了解</span>
 							<ul>
-								<a href="#"><li class="footer_firstLi">洗发水</li></a>
-								<a href="#"><li>沐浴露</li></a>
-								<a href="#"><li>精油</li></a>
-								<a href="#"><li>洗面奶</li></a>
+								<a href="../first/mall"><li class="footer_firstLi">洗发水</li></a>
+								<a href="../first/mall"><li>沐浴露</li></a>
+								<a href="../first/mall"><li>精油</li></a>
+								<a href="../first/mall"><li>洗面奶</li></a>
 							</ul>
-							</li></a>
-							<a href="#"><li class="footerLi">关于我们
+							</li>
+							<li class="footerLi"><span>关于我们</span>
 								<ul>
-									<a href="#"><li class="footer_firstLi">公司简介</li></a>
-									<a href="#"><li>公司荣誉</li></a>
+									<a href="index/#skip"><li class="footer_firstLi">公司简介</li></a>
 									<a href="#"><li>新闻资讯</li></a>
-									<a href="#"><li>联系我们</li></a>
+									<a href="javascript:;"><li class="contactUs">联系我们</li></a>
 								</ul>
-							</li></a>
-							<a href="#"><li class="footerLi">选购平台
+							</li>
+							<li class="footerLi"><span>选购平台</span>
 								<ul>
-									<a href="#"><li class="footer_firstLi">网上商城</li></a>
-									<a href="#"><li >京东旗舰店</li></a>
-									<a href="#"><li >天猫旗舰店</li></a>
+									<a href="../first/mall"><li class="footer_firstLi">网上商城</li></a>
+									<a href="https://mall.jd.com/index-626882.html" target="_blank"><li >京东旗舰店</li></a>
+									<a href="https://novella.tmall.hk/shop/view_shop.htm?spm=a230r.7195193.1997079397.2.hxfwHD" target="_blank"><li >天猫旗舰店</li></a>
 								</ul>
-							</li></a>
-							<a href="#"><li class="footerLi">快速链接
-								<ul>
-									<a href="#"><li  class="footer_firstLi">企业采购</li></a>
-								</ul>
-							</li></a>
+							</li>
 						</ul>
 					</div>
 					<div class="listRight clearfix">
@@ -297,21 +301,42 @@
 				</div>
 				<div class="copy clearfix">
 					<ul>
-						<li id="bo1"><a href="#">服务条款</a></li>
-						<li class="bo1"><a href="#">隐私政策</a></li>
-						<li class="bo2"><a href="#">版权所有-</a></li>
-						<li id="bo3">NOVELLA  LA MIA STORIA有限公司 苏ICP 备546675986号-1 </li>
+						<li id="bo1">服务条款</li>
+						<li class="bo1">隐私政策</li>
+						<li class="bo2">版权所有-</li>
+						<li id="bo3">NOVELLA  LA MIA STORIA 有限公司 苏ICP 备546675986号-1 </li>
 					</ul>
 					<a href="#"><img src="../img/returnTop.png" class="returnTop"/></a>
 				</div>
-				
+				<div class="phoneUs">
+					<div class="phoneHead">联系我们</div>
+					<div class="pnoneCon"><img src="../img/aa.phone.png"/>400-1234-678</div>
+				</div>
 			</div>
 			
 	</body>
 	<script type="text/javascript">
 			function go(e){
 				var id = e.name;
-				window.location.href="../third/goods?goodsId="+id+"";
+				var data={};
+				data.goodsId=id;
+				$.ajax({
+					url: url+"goods/goodsDetail.do",
+	            	data: data,
+	                dataType: "json",
+	                async:false, 
+	                success:function(res){
+	                	if(res.code ==200){
+	                		window.location.href="../third/goods?colStatus=1&goodsId="+id+"";
+	                	}else{
+	                		alert("未找到商品信息");
+	                	}
+	                },
+	                error: function () {
+	                    alert("网络错误");
+	                }
+				});
+				
 			}
 	</script>
 </html>

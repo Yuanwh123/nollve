@@ -15,44 +15,14 @@
 		<script type="text/javascript" src="../js/distpicker.js"></script>
 		<script type="text/javascript" src="../js/jquery.cookie.js"></script>
 		<script type="text/javascript" src="../js/url.js"></script>
-		<script type="text/javascript">
-			$(function(){
-				var data={};
-				data.userId=1;
-				$.ajax({
-					url: url+"goods/goodsAddr.do",
-	            	data: data,
-	                dataType: "json",
-	                async:false,
-	                success:function(res){
-	                	addrLists(res);
-	                },
-	                error: function () {
-	                    alert("网络错误");
-	                }
-				})
-			});
-			function addrLists(res){
-				var html="";
-				for(var i=0;i<res.data.length;i++){
-					html+= '<tr>';
-					html+= '<td>'+res.data[i].sendaddrName+'</td>';
-					html+= '<td>'+res.data[i].sendaddrArea+'</td>';
-					html+= '<td>'+res.data[i].sendaddrAddr+'</td>';
-					html+= '<td>'+res.data[i].sendaddrZipcode+'</td>';
-					html+= '<td>'+res.data[i].sendaddrTel+'</td>';
-					html+= '<td class="delOrxiu"><span class="del">删除</span></td>';
-					html+= '</tr>';
-				}
-				$(html).appendTo(".addLists");
-			}
-		</script>
+		<script type="text/javascript" src="../js/acYMD.js"></script>
+		<script type="text/javascript" src="../js/accountSet.js"></script>
 	</head>
 <body>
 	<div class="bg_div"></div>
 	<div class="gwTop">
     <div class="gwFlex2 clearfix">
-        <div class="logo"><a href="../first/index"><img src="../img/index_logo.png"/></a></div>
+        <div class="logo"><a href="../firstPages"><img src="../img/index_logo.png"/></a></div>
         <div class="logoNav fl clearfix">
             <ul>
                 <li class="clearfix"><a href="../first/index" >网站首页</a></li>
@@ -79,7 +49,7 @@
             <a href="../regist">注册</a> <span>丨</span><a href="../login">登录</a>
         </div>
         <div class="land fr land2">
-			<a href="我的.html" class="userN"></a><span>丨</span><a href="#" class="quit">退出</a>
+			<a href="../second/mine" class="userN"></a><span>丨</span><a href="#" class="quit">退出</a>
 		</div>
     </div>
 </div>
@@ -106,13 +76,13 @@
             <h3>您的基础信息</h3>
             <div class="jcInfo">
                 <p><i>会员名</i><span>sj</span><a></a></p>
-                <p><i class="jcInfo_i">绑定手机:</i><span class="phoneNum">88362193732</span><a><span>修改手机</span></a></p>
+                <p><i class="jcInfo_i">绑定手机:</i><span class="phoneNum">88362193732</span></p>
             </div>
             <h3>您的安全服务</h3>
             <ul>
             	<li>
                     <div>
-                        <img src="img/duigou_07.png"><p>已设置</p>
+                        <img src="../img/duigou_07.png"><p>已设置</p>
                     </div>
                     <span>登陆密码</span>
                     <p>
@@ -124,7 +94,7 @@
                </li>
                 <li>
                     <div>
-                        <img src="img/duigou_07.png"><p>已绑定</p>
+                        <img src="../img/duigou_07.png"><p>已绑定</p>
                     </div>
                     <span>绑定手机</span>
                     <p>
@@ -142,10 +112,10 @@
         		<span>基本资料</span>
         		<span>头像资料</span>
         	</div>
-        	<form action="#" method="post">
+        	<form action="#" method="post" id="form1">
         		<div class="perInfoMain">
 	        		<p id="perInfoMainP">亲爱的 <span id="perSpan">sean_full</span>，填写真是的资料，有助于好友找到你哦。</p>
-	        		<i class="fl">当前头像：</i><div class="perHead fl"><img src="img/comment_head2.png"/></div><br />
+	        		<i class="fl">当前头像：</i><div class="perHead fl"><img src="../img/comment_head2.png"/></div><br />
 	        		<div class="perName">
 	        			<i>* 昵称：</i><input type="text" name="perName" id="perName" value="sean_full"/>
 	        			<div class="perNotice">*昵称填写须知：与淘宝业务或卖家品牌冲突的昵称，淘宝将有可能回收</div>
@@ -174,7 +144,6 @@
 						  <select data-city="---- 选择市 ----" name="city1"></select>
 						  <select data-district="---- 选择区 ----" name="district1"></select>
 						</div>
-
 	        		</div>
 	        		<div class="perTown clearfix">
 	        			<i class="fl">家乡：</i>
@@ -186,9 +155,7 @@
 	        		</div>
 	        		<input type="submit" value="保存" name="perSave" id="perSave"/>
 	        	</div>
-        		
         	</form>
-        	
         </div>
         <!--收货地址-->
 		<div class="adPList addListWrite">
@@ -203,18 +170,19 @@
                         </select>
                         <input type="text" id="city" name="add" placeholder="省--市--区" class="addressWrite_add" onfocus="this.placeholder=''" onblur="this.placeholder='省--市--区'"/>
                     </div>
-                    <div><label>所在地区</label><span class="yeDes">*</span><textarea></textarea></div>
-                    <div><label>详细地址</label><span class="yeDes">*</span><input type="text" name="xxdz"/></div>
-                    <div><label>邮政编码 </label><input type="text" name="yzbm"/></div>
-                    <div class="uN"><label>收货人姓名</label><span class="yeDes">*</span><input type="text" name="username"/></div>
-                    <div><label>手机号</label><span class="yeDes" id="yeDes">*</span><input type="text" name="mobilePhone"/></div>
+                    <div><label>所在地区</label><span class="yeDes">*</span><textarea class="dCity"></textarea></div>
+                    <div><label>详细地址</label><span class="yeDes">*</span><input type="text" name="xxdz" id="xxdz"/></div>
+                    <div><label>邮政编码 </label><input type="text" name="yzbm" id="yzbm"/></div>
+                    <div class="uN"><label>收货人姓名</label><span class="yeDes">*</span><input type="text" name="username" id="username"/></div>
+                    <div><label>手机号</label><span class="yeDes" id="yeDes">*</span><input type="text" name="mobilePhone" id="mobilePhone"/></div>
                     <div><input type="checkbox" name="mRAddress" id="mRCheck"/><label for="mRCheck">设默认地址</label></div>
-                    <input type="button" value="保存">
+                    <input type="button" value="保存" class="saveAddr">
                 </form>
             </div>
             <div class="addList">
                 <table class="addLists">
-                    <tr >
+                    <tr>
+                    	<td style="visibility:hidden;"></td>
                         <td>收货人</td>
                         <td>所在地址</td>
                         <td>详细地址</td>
@@ -252,7 +220,7 @@
         <div class="adPList payBind">
             <h2>支付宝绑定设置</h2>
             <div class="bindUser">
-                <div class="bupic"><img src="img/duigou-bac_03.png"></div>
+                <div class="bupic"><img src="../img/duigou-bac_03.png"></div>
                 <div class="bindDes">
                     <div>
                         <p>已绑定支付宝账户：<span>sea****n@sina.com</span></p>
@@ -272,24 +240,24 @@
 						<ul>
 							<li class="footerLi"><span>选购及了解</span>
 							<ul>
-								<a href="网上商城.html"><li class="footer_firstLi">洗发水</li></a>
-								<a href="网上商城.html"><li>沐浴露</li></a>
-								<a href="网上商城.html"><li>精油</li></a>
-								<a href="网上商城.html"><li>洗面奶</li></a>
+								<a href="../first/mall"><li class="footer_firstLi">洗发水</li></a>
+								<a href="../first/mall"><li>沐浴露</li></a>
+								<a href="../first/mall"><li>精油</li></a>
+								<a href="../first/mall"><li>洗面奶</li></a>
 							</ul>
 							</li>
 							<li class="footerLi"><span>关于我们</span>
 								<ul>
-									<a href="index.html#skip"><li class="footer_firstLi">公司简介</li></a>
-									<a href="新闻中心.html"><li>新闻资讯</li></a>
+									<a href="../first/index/#skip"><li class="footer_firstLi">公司简介</li></a>
+									<a href="#"><li>新闻资讯</li></a>
 									<a href="javascript:;"><li class="contactUs">联系我们</li></a>
 								</ul>
 							</li>
 							<li class="footerLi"><span>选购平台</span>
 								<ul>
-									<a href="网上商城.html"><li class="footer_firstLi">网上商城</li></a>
-									<a href="https://mall.jd.com/index-626882.html"><li >京东旗舰店</li></a>
-									<a href="https://novella.tmall.hk/shop/view_shop.htm?spm=a230r.7195193.1997079397.2.hxfwHD"><li >天猫旗舰店</li></a>
+									<a href="../first/mall"><li class="footer_firstLi">网上商城</li></a>
+									<a href="https://mall.jd.com/index-626882.html" target="_blank"><li >京东旗舰店</li></a>
+									<a href="https://novella.tmall.hk/shop/view_shop.htm?spm=a230r.7195193.1997079397.2.hxfwHD" target="_blank"><li >天猫旗舰店</li></a>
 								</ul>
 							</li>
 						</ul>
@@ -298,11 +266,11 @@
 						<p>全国服务热线</p>
 						<h5>400-8228-228</h5>
 						<div class="fl">
-							<img src="img/weixin1.png" class="footerPic"/>
+							<img src="../img/weixin1.png" class="footerPic"/>
 							<p class="footerP1">微信服务号</p>
 						</div>
 						<div class="fl">
-							<img src="img/weixin2.png" />
+							<img src="../img/weixin2.png" />
 							<p class="footerP2">微博</p>
 						</div>
 					</div>
@@ -314,11 +282,11 @@
 						<li class="bo2">版权所有-</li>
 						<li id="bo3">NOVELLA  LA MIA STORIA 有限公司 苏ICP 备546675986号-1 </li>
 					</ul>
-					<a href="#"><img src="img/returnTop.png" class="returnTop"/></a>
+					<a href="#"><img src="../img/returnTop.png" class="returnTop"/></a>
 				</div>
 				<div class="phoneUs">
 					<div class="phoneHead">联系我们</div>
-					<div class="pnoneCon"><img src="img/aa.phone.png"/>400-1234-678</div>
+					<div class="pnoneCon"><img src="../img/aa.phone.png"/>400-1234-678</div>
 				</div>
 			</div>
 </body>

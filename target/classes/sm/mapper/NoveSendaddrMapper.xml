@@ -85,8 +85,8 @@
       <if test="sendaddrName != null">
         sendaddr_Name,
       </if>
-      <if test="sendaddr_area != null">
-        sendaddrArea,
+      <if test="sendaddrArea != null">
+        sendaddr_area,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -114,7 +114,7 @@
       <if test="sendaddrName != null">
         #{sendaddrName,jdbcType=VARCHAR},
       </if>
-      <if test="sendaddr_area != null">
+      <if test="sendaddrArea != null">
          #{sendaddrArea,jdbcType=VARCHAR},
       </if>
     </trim>
@@ -174,4 +174,9 @@
   	from nove_sendaddr
     where userId = #{userid,jdbcType=INTEGER}
   </select>
+  <update id="updateColStatus" parameterType="java.lang.Integer">
+  	UPDATE nove_sendaddr a set a.sendaddr_defaultStatus=0 WHERE a.sendaddr_id in(
+	select c.sendaddr_id from
+	(SELECT b.*  from nove_sendaddr b WHERE b.sendaddr_defaultStatus=1) c)
+  </update>
 </mapper>

@@ -31,142 +31,14 @@
 		<script type="text/javascript" src="../js/citySet.js"></script>
 		<script type="text/javascript" src="../js/Popt.js"></script>
 		<script type="text/javascript" src="../js/url.js"></script>
-		<script type="text/javascript">
-			var orderId = GetQueryString("orderId");
-			var priceTotal,sendTo,guestName;
-			$(function(){
-				addrList();
-				var data ={};
-				data.orderId = orderId;
-				$.ajax({
-					url: url+"goods/goodsOrderSure.do",
-	            	data: data,
-	                dataType: "json",
-	                async:false,
-	                success:function(res){
-	                	orderSure(res);
-	                },
-	                error: function () {
-	                    alert("网络错误");
-	                }
-				})
-				orderSubmit();
-			})
-			function orderSubmit(){
-				$(".sendButton").click(function(){
-					alert($(".guestName").html());
-				});
-			}
-			//收货地址
-			function addrList(){
-				var data={};
-				data.userId =1;
-				$.ajax({
-					url:url+"goods/goodsAddr.do",
-	            	data:data,
-	                dataType:"json",
-	                async:false,
-	                success:function(res){
-	                	addrSure(res);
-	                	clickAddr();
-	                },
-	                error: function () {
-	                    alert("网络错误");
-	                }
-				})
-				
-			}
-			
-			function clickAddr(){
-				$(".dw-list").click(function(e){
-					//当点击移除兄弟first-add的元素
-					$(this).siblings('.first-add').find('.revise').remove()
-					$(this).siblings('.first-add').find('p').remove()
-					$(this).siblings('.first-add').find('div').remove()
-
-				if(!$(this).hasClass('first-add') && !$(this).hasClass('add-address')){
-					$(this).append('<span class="revise">修改</span>')
-					$(this).append('<p class="mrdz">默认地址</p >')
-					$(this).append('<div class="corner"><img src="../img/triangle.png"></div>')
-					$(".guestName").html($(this).find(".detaAddrName").html()+$(this).find(".detaAddrTel").html());
-					$(".sendTo").html( $(this).find(".sendTo").html());
-				}
-		        //自己添加这个类
-				$(this).addClass('first-add').siblings('.dw-list').removeClass('first-add');
-
-		        /****************点击保存按钮的时候***********/
-		        $('#reSave').on('click',function(){
-					$('.reviseFix').css('display','none');
-
-
-				})
-				/***********点击修改按钮的时候****************/
-				$('.revise').on('click',function(){
-					alert("此功能作废");
-					/*$('.reviseFix').css('display','block');
-					var userName=$(this).siblings('h4').children('i').text();
-					
-					var userPhone=$(this).siblings('h3').children('span').text();
-					var detaAddress=$('.detaAddress').text();
-					$('#reName').val(userName);
-					$('#reDeInfo').val(detaAddress);
-					$('#reNum').val(userPhone);*/
-				})
-				/********点击差之后隐藏**********/
-					$('.cha').click(function(){
-						$('.reviseFix').css('display','none');
-					})
-				});
-			}
-			function addrSure(res){
-				var html="";
-				for(var i=0;i<res.data.length;i++){
-					if(res.data[i].sendaddrDefaultstatus==1){
-						html+='<div class="dw-list first-add">';
-						html+='<h4>广东<span>广州</span>&nbsp;&nbsp;&nbsp;&nbsp;(<i class="detaAddrName">'+res.data[i].sendaddrName+'</i>)收</h4>';
-						html+='<h3>电话号码:<span class="detaAddrTel">'+res.data[i].sendaddrTel+'</span></h3>';
-						html+='<h4 class="detaAddress">'+res.data[i].sendaddrAddr+'</h4>';
-						html+=' <span class="revise">修改</span>';
-						html+=' <p class="mrdz">默认地址</p >';
-					    html+='<div class="corner"><img src="../img/triangle.png"></div> </div>';
-					}else{
-						html+='<div class="dw-list">';
-						html+='<h4>广东<span>广州</span>&nbsp;&nbsp;&nbsp;&nbsp;(<i class="detaAddrName">'+res.data[i].sendaddrName+'</i>)收</h4>';
-						html+='<h3 >电话号码:<span class="detaAddrTel">'+res.data[i].sendaddrTel+'</span></h3>';
-						html+='<h4 class="detaAddress">'+res.data[i].sendaddrAddr+'</h4></div>';
-					}
-				}
-				html+='<div class="dw-list add-address"><img src=../img/plus.png></div>';
-				
-				$(html).appendTo(".add-text");
-			}
-			function orderSure(res){
-				var html="";
-				for(var i=0;i<res.data.length;i++){
-					var price = res.data[i].orderPrice/res.data[i].orderGoodsNum;
-					html+='<tr class="tab_secRow">';
-					html+='<td class="clearfix">';
-					html+='<div class="g_boxLeft fl">';
-					html+='<img src="'+res.data[i].orderPic+'"/>';
-					html+='</div>';
-					html+='<p class="goods_des fl">日本进口'+res.data[i].orderGoodsInf+'</p>';
-					html+='</td>';
-					html+='<td>商品属性：'+res.data[i].orderSpec+'ml洗发水</td>';
-					html+='<td class="row_goodsOnePrice">'+price+'</td>';
-					html+='<td><span class="num_reduce">-</span><span class="goodsNum">'+res.data[i].orderGoodsNum+'</span><span class="num_add">+</span>';
-					html+='</td>';
-					html+='<td class="row_total">'+res.data[i].orderPrice+'</td></tr>';
-				}
-				
-				$(html).appendTo(".confirmInfo");
-			}
-		</script>
+		<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="../js/goodsBuy.js"></script>
 	</head>
 	<body>
 		<div class="outer">
 			<div class="gwTop">
 				<div class="gwFlex2 clearfix">
-					<div class="logo"><img src="img/index_logo.png"/></div>
+					<div class="logo"><a href="../firstPages"><img src="../img/index_logo.png"/></a></div>
 					<div class="logoNav fl clearfix">
 						<ul>
 							<li class="clearfix"><a href="../first/index" >网站首页</a></li>
@@ -188,8 +60,11 @@
 					<div class="searchBox fl">
 						<input type="text" name="searchBox" id="searchBox" value="" />
 					</div>
-					<div class="land fr">
-						<a href="#">注册</a> <span>丨</span><a href="#">登录</a>
+					<div class="land fr land1">
+						<a href="regist">注册</a> <span>丨</span><a href="login">登录</a>
+					</div>
+					<div class="land fr land2">
+						 <a href="../second/mine" class="userN"></a><span>丨</span><a href="#" class="quit">退出</a>
 					</div>
 				</div>
 			</div>

@@ -31,11 +31,11 @@ public class PagesController {
 	@RequestMapping("/reset")
 	public String adminMallResetPage() {return  "login/reset";}
 	
-	
 	/**
 	 * ÉÏ´«Ò³Ãæ
 	 * @ywh
 	 */
-	@RequestMapping("/picture")
-	public String adminMallPicturePage() {return  "picture/index";}
+	@RequestMapping("/firstPages")
+	public String adminMallPicturePage() {return  "Log_in/index";}
+	
 }

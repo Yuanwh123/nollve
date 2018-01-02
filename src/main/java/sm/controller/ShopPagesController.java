@@ -34,4 +34,6 @@ public class ShopPagesController {
 	@RequestMapping("/jour")
 	public String adminMallJourPage() {return  "index/jour";}
 	
+	
+	
 }

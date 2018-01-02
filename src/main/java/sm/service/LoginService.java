@@ -8,6 +8,10 @@ public interface LoginService {
 	 */
 	int adminLogin(HttpSession session,String account,String password);	
 	/*
+	 * 用户验证码
+	 */
+	int regGetCode(String mobile);
+	/*
 	 * 用户注册接口
 	 */
 	int adminRegist(String mobile,String code,String password);
@@ -19,4 +23,8 @@ public interface LoginService {
 	 * 重置密码
 	 */
 	int adminReset(String mobile,String password);
+	/*
+	 * 获取用户Id
+	 */
+	int GetUserId(String account);
 }

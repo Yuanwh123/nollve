@@ -1,8 +1,5 @@
 package sm.service.impl;
 
-import java.util.Date;
-import java.util.UUID;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +72,23 @@ public class LoginServiceImpl implements LoginService{
 		u.setUserTel(mobile);
 		loginMapper.updateRolePassword(u);
 		return 200;
+	}
+	
+	public int GetUserId(String account) {
+		NoveUser u = loginMapper.getRoleName(account);
+		int result =0;
+		if(u != null) {
+			result = u.getUserId(); 
+		}
+		return result;
+	}
+	@Override
+	public int regGetCode(String mobile) {
+		NoveUser u = loginMapper.getRoleMobile(mobile);
+		System.out.println(u == null);
+		if(u == null) {
+			return 200;
+		}
+		return 0;
 	}
 }

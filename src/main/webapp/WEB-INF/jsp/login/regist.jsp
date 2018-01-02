@@ -10,58 +10,9 @@ pageEncoding="utf-8"%>
 		<script type="text/javascript" src="js/mhwz.js"></script>
 		<script type="text/javascript" src="js/url.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
-		<script type="text/javascript">
-			$(function(){
-				$("#register").click(function(){
-					registAction();
-				});
-			});
-			function registAction(){
-				var flag = true;
-				if($("#regPhoneN").val()==""){
-					alert("请输入手机号");
-					flag = false;
-				}
-				if($("#regPassword").val() !=$("#regPassword2").val() ){
-					alert("两次密码不正确");
-					flag = false;
-				}
-				var isObey = $("#obey").is(":checked");
-				if(!isObey){
-					alert("请读取xxx协议");
-					flag = false;
-				}
-				var data = {};
-				data.mobile = $("#regPhoneN").val();
-				data.code = $("#regValidate").val();
-				data.password =  encodePwdString($("#regPassword").val());
-				if(flag){
-					$("#register").attr("disabled", true).val('注册中..');
-					$.ajax({
-						url:url+"login/passport/regist.do",
-						data: data,
-		                dataType: "json",
-		                success:function(res){
-		                	console.log(res);
-		                	$("#register").attr("disabled", true).val('注册');
-		                	if (res.code == 200) {
-		                		setTimeout(backToLogin(),1200);
-		                	}else{
-		                		alert(res.errMsg);
-		                	}
-		                	flag = false;
-		                },
-		                error: function () {
-		                    alert("网络错误");
-		                    $("#register").attr("disabled", false).val('注册');
-		                }
-					});
-				}
-			}
-			function backToLogin(){
-				window.location.href="login";
-			}
-		</script>
+		<script type="text/javascript" src="js/jquery.cookie.js"></script>
+		 <script type="text/javascript" src="js/landRegisCookie.js"></script> 
+		
 	</head>
 	<body>
 		<div class="outerDiv">
@@ -76,7 +27,7 @@ pageEncoding="utf-8"%>
 					</div>
 					<div class="regPhoneN regValidate">
 						<span></span><input type="text" name="regValidate" id="regValidate" placeholder="验证码" onfocus="this.placeholder=''" onblur="this.placeholder='验证码'" />
-						<i>获取验证码</i>
+						<button type="button" id="regGetCode">获取验证码</button>
 					</div>
 					<div class="formPass regPass">
 						<span></span><input type="password" name="regPassword" id="regPassword" placeholder="请输入密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入密码'" />

@@ -52,4 +52,6 @@ public interface NoveSendaddrMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(NoveSendaddr record);
+    
+    int updateColStatus();
 }

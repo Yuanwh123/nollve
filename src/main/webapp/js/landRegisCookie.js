@@ -7,35 +7,35 @@ window.onload = function(){
         	var reg=/^1\d{10}$/;
         	if(reg.test(getP_phone)){
         		var num_=60;
-		        
 		        $(this).attr("disabled",true);
 		        $(this).css("cursor","default");
 		        $(this).text(num_+"秒内输入");
-		        scTimer=setInterval(function(){
-	        		num_--;
-	        		if(num_>0){
-	        			$("#getValidation").text(num_+"秒内输入");
-	        		}else{
-	        			clearInterval(scTimer);
-	        			$("#getValidation").attr("disabled",false);
-	        			$("#getValidation").css("cursor","pointer");
-	        			$("#getValidation").text("请重新发送");
-	        			num_=60;
-	        		}
-	        	},1000)
+		        
 		        var data={};
 		        data.mobile=$("#getP_phone").val();
 		        $.ajax({
-		        	type:"post",
 		        	url:url+"login/passport/find.do",
 		        	data:data,
 		        	dataType: "json",
 		        	success:function(res){
 		        		 if (res.code == 200) {
+		        			 console.log(JSON.stringify(res));
+		        			 scTimer=setInterval(function(){
+		     	        		num_--;
+		     	        		if(num_>0){
+		     	        			$("#getValidation").text(num_+"秒内输入");
+		     	        		}else{
+		     	        			clearInterval(scTimer);
+		     	        			$("#getValidation").attr("disabled",false);
+		     	        			$("#getValidation").css("cursor","pointer");
+		     	        			$("#getValidation").text("请重新发送");
+		     	        			num_=60;
+		     	        		}
+		     	        	},1000)
 	                        codeReturned=res.data;
-        			}else{
-        				alert(res.errMsg);
-        			}
+	        			}else{
+	        				alert("手机号不存在");
+	        			}
 		        	}
 		        });
         	}else{
@@ -45,8 +45,9 @@ window.onload = function(){
         //提交（重置密码）
         $("#getPassword").on("click",function(){
         	var getCode=$("#getP_validate").val();
+        	var getP_phone=$("#getP_phone").val();
         	if(getCode==codeReturned){
-        		window.location.href="重置密码.html";
+        		document.getElementById('getForm').action = "reset?mobile="+getP_phone+""; 
         	}else{
         		alert("验证码错误");
         		clearInterval(scTimer);
@@ -70,17 +71,16 @@ window.onload = function(){
         		alert("请输入6~16位字母或数字");
         	}else{
         		var data={};
-        		data.mobile=18761666128;
-        		data.resetPass=encodePwdString(resetPass);
+        		data.mobile=GetQueryString("mobile");
+        		data.password=encodePwdString(resetPass);
         		$.ajax({
-        			type:"post",
         			url:url+"login/passport/reset.do",
         			data:data,
         			dataType:"json",
         			success:function(res){
+        				console.log(JSON.stringify(res));
         				if(res.code==200){
-        					alert("修改密码成功");
-        					window.location.href="登陆页面.html";
+        					window.location.href="login";
         				}
         			},
         			error:function(){
@@ -220,25 +220,31 @@ window.onload = function(){
 		        $(this).attr("disabled",true);
 		        $(this).css("cursor","default");
 		        $(this).text(num_+"秒内输入");
-		        regTimer=setInterval(function(){
-	        		num_--;
-	        		if(num_>0){
-	        			$("#regGetCode").text(num_+"秒内输入");
-	        		}else{
-	        			clearInterval(regTimer);
-	        			$("#regGetCode").attr("disabled",false);
-	        			$("#regGetCode").css("cursor","pointer");
-	        			$("#regGetCode").text("请重新发送");
-	        			num_=60;
-	        		}
-	        	},1000)
+		        
+	        	var data={};
+		        data.mobile=regPhoneN;
 		        $.ajax({
-		        	url:url+"login/passport/regist.do",
+		        	url:url+"login/passport/regGetCode.do",
 					data: data,
 		            dataType: "json",
 		            success:function(res){
-		            	codeRegister=res.code;
-		            	alert(1);
+		            	if(res.code ==200){
+		            		regTimer=setInterval(function(){
+		    	        		num_--;
+		    	        		if(num_>0){
+		    	        			$("#regGetCode").text(num_+"秒内输入");
+		    	        		}else{
+		    	        			clearInterval(regTimer);
+		    	        			$("#regGetCode").attr("disabled",false);
+		    	        			$("#regGetCode").css("cursor","pointer");
+		    	        			$("#regGetCode").text("请重新发送");
+		    	        			num_=60;
+		    	        		}
+		    	        	},1000)
+		            		codeRegister=res.data;
+		            	}else{
+		            		alert("此手机号已经注册过");
+		            	}
 		            }
 		        	
 		        })
@@ -292,7 +298,7 @@ window.onload = function(){
 							data: data,
 			                dataType: "json",
 			                success:function(res){
-			                	console.log(res);
+			                	
 			                	$("#register").attr("disabled", true).val('注册');
 			                	if (res.code == 200) {
 			                		setTimeout(backToLogin(),1200);
@@ -308,11 +314,9 @@ window.onload = function(){
 						});
 					
 				}
-				
-				
 			}
 			function backToLogin(){
-				window.location.href="登陆页面.html";
+				window.location.href="login";
 			}
         
 	

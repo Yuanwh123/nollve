@@ -1,3 +1,4 @@
+
 window.onload = function(){
 	$(function(){
 
@@ -10,9 +11,23 @@ window.onload = function(){
 			 	$(".land2 .userN").text(cookieName);
 			 }
 			$(".quit").click(function(){
-				cookieName=null;
-				$(".land1").css("display","block");
-			 	$(".land2").css("display","none");
+				var data  ={};
+				data.account=cookieName;
+				$.ajax({
+					url: url+"login/passport/exit.do",
+	            	data: data,
+	                dataType: "json",
+	                async:false,
+	                success:function(res){
+	                	if(res.code ==200){
+	                		$.removeCookie(cookieName);
+	                		$(".land1").css("display","block");
+	        			 	$(".land2").css("display","none");
+	        			 	window.location.href="../login";
+	                	}
+	                },
+	                error:function(){}
+				});
 			})
 			
 //主页
@@ -21,6 +36,13 @@ window.onload = function(){
 			window.location.reload();
 			})
 		}
+			$("#ab_mo").click(function(){
+				$(".phoneUs").css("display","block");
+				$(".phoneUs").css({
+					top:50+"%",left:50+"%",marginLeft:-150,marginTop:-65
+				})
+				$(".bg_div").css("display","block")
+			})
 		$(".contactUs").click(function(){
 			$(".phoneUs").css("display","block");
 			$(".phoneUs").css({
@@ -392,15 +414,18 @@ window.onload = function(){
 	$("#toSend").text($(".waitComment .toSendGoods").length);//待发货
 	$("#toGet").text($("#mine_logistics .logistics_item").length);//待收货
 	$("#toEva").text($(".waitComment .toCom").length);//待评价
+	/*
 	$(".confirm_fetchG").click(function(){
 		if(confirm("确认您已查收了吗？")){
+			alert("1");
 			$(this).parents(".logistics_item").remove();
 			$("#toGet").text($("#mine_logistics .logistics_item").length);
 			$("#toEva").text(parseInt($("#toEva").text())+1);
 		};
-	})
+	})*/
 	$(".allOrder_confirm").click(function(){
 		if(confirm("确认您已查收了吗？")){
+			
 			$(this).parents(".toGetGoods").remove();
 			$("#toGet").text($("#waitComment .toGetGoods").length);
 			$("#toEva").text(parseInt($("#toEva").text())+1);
@@ -417,11 +442,11 @@ window.onload = function(){
 		}
 	})
     $("#file_upload2").change(function () {//退货-上传图片限制
-    	var file_upload=document.getElementById("file_upload2");
+    	var file_upload2=document.getElementById("file_upload2");
     	$("#preview").html("");
-    	if(file_upload.files.length>5){
+    	if(file_upload2.files.length>5){
     		alert("最多只能选择五张图片，请重新选择");
-    		$("#file_upload").val("");
+    		$("#file_upload2").val("");
     	}else{
     		var fil = this.files;
 	        for (var i = 0; i < fil.length; i++) {
@@ -485,6 +510,14 @@ window.onload = function(){
 		$(".toSendGoods").hide();
 		$(".toGetGoods").hide();
 		$("#bar_toCom").addClass("main_liActive").siblings().removeClass("main_liActive");
+	})
+	$("#to_return").click(function(){
+		$(".mine_main2").css("display","block").siblings().hide();
+		$(".toSendGoods").show();
+		$(".toPay").hide();
+		$(".toGetGoods").hide();
+		$(".toCom").hide();
+		$("#bar_toSend").addClass("main_liActive").siblings().removeClass("main_liActive");
 	})
 	//我的2页面
 	$("#comTa1").focus();//评论跳转后第一个文本框获得焦点
@@ -564,7 +597,7 @@ window.onload = function(){
 		    console.log("inout",$(this).val(),new Date())
 		});
 		//个人账户设置插件---年月日
-//  	new YMDselect('year1','month1','day1',2010,3,20);    
+  	//new YMDselect('year1','month1','day1',2010,3,20);    
 		//。。。
 //		$("#distpicker").distpicker();
 		//个人账户设置JS
@@ -586,12 +619,8 @@ window.onload = function(){
             adindex = $(".liPanel li").index($(this));
             $('.adPanelContent>div').eq(adindex).show().siblings('.adPList').hide();
         })
-        //个人账户设置--点击删除按钮
-		$('.del').click(function(){
-		   if(confirm('您确定要删除这条地址吗？')){
-		      $(this).parents('tr').remove();
-		   }
-		})
+       
+		
         //买家申请退货表单
         $("#retSubmit").on("click",function(){
         	var whatGoods=$(".return_goods p").text();
